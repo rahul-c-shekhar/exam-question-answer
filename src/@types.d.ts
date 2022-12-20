@@ -1,5 +1,7 @@
-import React, { Dispatch, SetStateAction } from 'react';
+import React from 'react';
 import { Map } from 'typescript';
+
+// All types being used in the project must be defined in this file
 
 export type ButtonProp = {
   text: string;
@@ -25,18 +27,12 @@ export type Question = {
   result: boolean;
 };
 
-export type ButtonProp = {
-  text: string;
-  onClick: React.MouseEventHandler<HTMLButtonElement>;
-  color: string;
-};
-
 export type SelectedDataValue = {
   value: any;
   option: QuestionOption;
 };
 
-export type SelectedData = Map<string, SelectedDataValues>;
+export type SelectedData = Map<string, SelectedDataValue>;
 
 export type QuestionContext = {
   selectedOptions: SelectedData;
