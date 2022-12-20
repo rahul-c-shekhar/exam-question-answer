@@ -1,45 +1,58 @@
-import React from 'react';
-
-type QuestionOption = {
-  optionid: number;
-  optionvalue: string;
-  price: number;
-  optionaction: string;
-  selected: boolean;
-};
-
-type Question = {
-  questionid: number;
-  question: string;
-  questiontype: string;
-  attributetype: number;
-  validation: boolean;
-  questionoption: QuestionOption[];
-};
+// import { useContext } from 'react';
+import { Question } from '../@types';
+// import { QuestionsContext } from '../App';
 
 const QuestionCard = ({
   question,
   questiontype,
-  questionid,
   questionoption,
+  result,
 }: Question) => {
+  // const { currQuestion, questions } = useContext(QuestionsContext);
+
+  // console.log(questions);
+
   return (
     <div>
       <p className='text-center p-5 text-xl'>{question}</p>
       {questiontype &&
-        questionoption.map((option, i) => (
-          <div className='p-1 border w-full' key={i}>
-            <input
-              type={questiontype.toLowerCase()}
-              name='price'
-              className='ml-2 mr-2'
-            />
-            {questiontype.toLowerCase() === 'textarea' ||
-            questiontype.toLowerCase() === 'date'
-              ? ''
-              : option.price}
-          </div>
-        ))}
+        questionoption.map((option, i) =>
+          !result ? (
+            <div className='p-1 border w-full' key={i}>
+              <input
+                type={questiontype.toLowerCase()}
+                name={question}
+                className='ml-2 mr-2'
+                onChange={(e) => {
+                  option.selected = true;
+                  option.optionvalue = e.target.value;
+                }}
+              />
+              {questiontype.toLowerCase() === 'textarea' ||
+              questiontype.toLowerCase() === 'date'
+                ? ''
+                : option.price}
+            </div>
+          ) : (
+            <div className='p-1 border w-full' key={i}>
+              <input
+                type={questiontype.toLowerCase()}
+                name={question}
+                className='ml-2 mr-2'
+                checked={option.selected ? true : false}
+                value={option.optionvalue}
+                onChange={(e) => {
+                  option.selected = true;
+                  option.optionvalue = e.target.value;
+                }}
+              />
+              {questiontype.toLowerCase() === 'textarea' ||
+              questiontype.toLowerCase() === 'date'
+                ? ''
+                : option.price}
+            </div>
+          )
+        )}
     </div>
   );
 };
