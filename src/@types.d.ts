@@ -1,4 +1,10 @@
-import React from 'react';
+import React, { Dispatch, SetStateAction } from 'react';
+import { Map } from 'typescript';
+
+export type ButtonProp = {
+  text: string;
+  onClick: React.MouseEventHandler<HTMLButtonElement>;
+};
 
 export type QuestionOption = {
   optionid: number;
@@ -25,7 +31,13 @@ export type ButtonProp = {
   color: string;
 };
 
+export type SelectedDataValue = {
+  value: any;
+  option: QuestionOption;
+};
+
+export type SelectedData = Map<string, SelectedDataValues>;
+
 export type QuestionContext = {
-  currQuestion: number;
-  questions: Question[];
+  selectedOptions: SelectedData;
 };

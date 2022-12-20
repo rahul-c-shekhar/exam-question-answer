@@ -1,6 +1,6 @@
-// import { useContext } from 'react';
-import { Question } from '../@types';
-// import { QuestionsContext } from '../App';
+import { useContext } from "react";
+import { Question } from "../@types";
+import { GlobalContext } from "../context/GlobalContext";
 
 const QuestionCard = ({
   question,
@@ -8,47 +8,49 @@ const QuestionCard = ({
   questionoption,
   result,
 }: Question) => {
-  // const { currQuestion, questions } = useContext(QuestionsContext);
-
-  // console.log(questions);
+  const { selectedOptions } = useContext(GlobalContext);
 
   return (
     <div>
-      <p className='text-center p-5 text-xl'>{question}</p>
+      <p className="text-center p-5 text-xl">{question}</p>
       {questiontype &&
         questionoption.map((option, i) =>
           !result ? (
-            <div className='p-1 border w-full' key={i}>
+            <div className="p-1 border w-full" key={i}>
               <input
                 type={questiontype.toLowerCase()}
                 name={question}
-                className='ml-2 mr-2'
+                className="ml-2 mr-2"
                 onChange={(e) => {
-                  option.selected = true;
-                  option.optionvalue = e.target.value;
+                  selectedOptions.set(question, {
+                    value: e.target.value,
+                    option,
+                  });
                 }}
               />
-              {questiontype.toLowerCase() === 'textarea' ||
-              questiontype.toLowerCase() === 'date'
-                ? ''
+              {questiontype.toLowerCase() === "textarea" ||
+              questiontype.toLowerCase() === "date"
+                ? ""
                 : option.price}
             </div>
           ) : (
-            <div className='p-1 border w-full' key={i}>
+            <div className="p-1 border w-full" key={i}>
               <input
                 type={questiontype.toLowerCase()}
                 name={question}
-                className='ml-2 mr-2'
-                checked={option.selected ? true : false}
-                value={option.optionvalue}
-                onChange={(e) => {
-                  option.selected = true;
-                  option.optionvalue = e.target.value;
-                }}
+                className="ml-2 mr-2"
+                checked={
+                  selectedOptions.get(question).option.optionid ===
+                  option.optionid
+                    ? true
+                    : false
+                }
+                value={selectedOptions.get(question).value}
+                onChange={(e) => {}}
               />
-              {questiontype.toLowerCase() === 'textarea' ||
-              questiontype.toLowerCase() === 'date'
-                ? ''
+              {questiontype.toLowerCase() === "textarea" ||
+              questiontype.toLowerCase() === "date"
+                ? ""
                 : option.price}
             </div>
           )
